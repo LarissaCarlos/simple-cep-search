@@ -39,45 +39,54 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Consultando um CEP via API'),
-        backgroundColor: Colors.black,
+        title: const Text('Consulta CEP'),
+        backgroundColor: Colors.purple,
         centerTitle: true,
-        leading: const Icon(Icons.person),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SecondPage()),
-              );
-            },
-            icon: const Icon(Icons.exit_to_app),
-          ),
-        ],
+        leading: const Icon(Icons.refresh),
       ),
       // single child é para dar scroll na tela
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           // padding é para dar espaço
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(40),
           // column colocar componentes em coluna
           child: Column(
             children: [
               // textField digitar valores - inserir
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: cepEC,
-                decoration: InputDecoration(hintText: 'Digite o Cep'),
+                decoration: const InputDecoration(labelText: 'Digite o CEP'),
+                style: const TextStyle(fontSize: 14),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   CepInputFormatter(),
                 ],
               ),
-              ElevatedButton(
-                child: Text("Pesquisar"),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 241, 215, 134),
+                  elevation: 15,
+                  shadowColor: Colors.purple,
+                ),
+                child: const Text(
+                  "Pesquisar",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 65, 61, 61),
+                  ),
+                ),
                 onPressed: () {
                   searchCep(
                       cepEC.text.replaceFirst('.', '').replaceFirst('-', ''));
                 },
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "O endereço irá aparecer aqui: ",
+                style: TextStyle(color: Colors.grey),
               ),
 
               Visibility(
@@ -85,14 +94,18 @@ class _HomePageState extends State<HomePage> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text(
-                          cepData?.localidade ?? 'não encontrado',
-                          style: TextStyle(),
+                        SizedBox(
+                          height: 20,
                         ),
-                        Text(cepData?.cep ?? 'não encontrado'),
-                        Text(cepData?.complemento ?? 'não encontrado'),
-                        Text(cepData?.uf ?? 'não encontrado'),
-                        Text(cepData?.ddd ?? 'não encontrado')
+                        Text(cepData?.cep ?? 'não encontrado',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(cepData?.localidade ?? 'não encontrado',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(cepData?.uf ?? 'não encontrado',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ))
@@ -103,3 +116,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+BlueBox() {}
